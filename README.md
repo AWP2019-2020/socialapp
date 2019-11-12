@@ -15,11 +15,15 @@ Apply migrations:
         python manage.py migrate
 
 Start project:
+
         django-admin startproject [project_name] [project_location]
 
-**Ex: django-admin.py startproject socialapp .**
+**Example:** 
+
+        django-admin.py startproject socialapp .
 
 Start app
+
         python manage.py startapp [app_name]
 
 Create migrations:
@@ -30,7 +34,8 @@ Start server:
 
         python manage.py runserver
 
-# Stop server using CTRL+C
+### Stop server using CTRL+C
 
 Create admin user (superuser):
+
         python manage.py createsuperuser
