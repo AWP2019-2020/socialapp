@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Social App {% endblock %}
+
+{% block content %}
+  <ul>
+    {% for post in post_list %}
+      <li>
+        <a href="{% url 'post_detail' post.id %}">{{ post.text }}</a>
+        <small> created by {{ post.created_by.username }}</small>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

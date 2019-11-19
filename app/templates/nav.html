@@ -1,0 +1,12 @@
+<nav>
+  <ul>
+    <li><a href="{% url 'post_list' %}">Social App</a></li>
+    {% if  user.is_authenticated %}
+      <li>Hello, {{ user.username }}</li>
+      <li><a href="">Logout</a></li>
+    {% else %}
+      <li><a href="">Login</a></li>
+      <li><a href="">Register</a></li>
+    {% endif %}
+  </ul>
+</nav>
