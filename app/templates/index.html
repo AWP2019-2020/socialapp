@@ -4,11 +4,21 @@
 
 {% block content %}
   <ul>
+  <div class="row container" style="margin-top:5%;">
     {% for post in post_list %}
-      <li>
-        <a href="{% url 'post_detail' post.id %}">{{ post.text }}</a>
-        <small> created by {{ post.created_by.username }}</small>
-      </li>
+      <div class="col-sm-6 p-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ post.text }}</h5>
+              <p class="card-text">Created by: <a href="">{{ post.created_by.username }}</a></p>
+              <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">See post details</a>
+          </div>
+          <div class="card-footer text-muted">
+            {{ post.created_at }}
+          </div>
+        </div>
+      </div>
     {% endfor %}
   </ul>
+</div>
 {% endblock %}

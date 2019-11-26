@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Delete post
+{% endblock%}
+
+{% block content %}
+  <div class="container m-5">
+    <h5>Are you sure you want to delete the post?</h5>
+    <form method="post" class="form-inline">
+        {% csrf_token %}
+        <input class="btn btn-secondary" type="submit" value="Delete post" />
+    </form>
+  </div>
+{% endblock %}

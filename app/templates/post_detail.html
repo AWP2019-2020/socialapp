@@ -5,6 +5,70 @@
 {% endblock%}
 
 {% block content %}
-  <h1>{{ post.text }}</h1>
-  <p>Created by {{ post.created_by.username }} on {{ post.created_at }}</p>
+  <div class="container">
+    <div class="p-3">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">
+            {{ post.text }}
+            {% if post.created_at|date:"Y-m-d H:i" != post.updated_at|date:"Y-m-d H:i" %}
+              <small><i>(edited)</i></small>
+            {% endif %}
+          </h1>
+          <p class="card-text">Created by:
+            <a href="">{{ post.created_by.username }}</a>
+          </p>
+        </div>
+        <div class="card-footer text-muted">
+          {{ post.created_at }}
+        </div>
+      </div>
+    </div>
+
+    <div class="m-2">
+      {% if user == post.created_by %}
+        <a class="btn btn-secondary" href="{% url 'post_edit' post.id %}">Edit post</a>
+        <a class="btn btn-secondary" href="{% url 'post_delete' post.id %}">Delete post</a>
+      {% endif %}
+    </div>
+
+    <div class=" col-sm-12">
+      <h2>Comments</h2>
+
+      <form action="{% url 'comment_create' post.id %}" method="post" class="form-inline justify-content-center">
+        {% csrf_token %}
+        <!--{{ form.as_p }}-->
+        <div class="form-group mx-2">
+          <input class="form-control" type="text" name="text" required="" id="id_text" maxlength="200">
+        </div>
+        <input class="btn btn-secondary" type="submit" value="Comment" />
+      </form>
+
+      {% if post.comments.all %}
+        {% regroup post.comments.all|dictsortreversed:"created_at" by created_at as comments %}
+        {% for comment_group in comments %}
+          {% for comment in comment_group.list %}
+          <div class="card m-3">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>
+                  {{ comment.text }}
+                  {% if comment.created_at|date:"Y-m-d H:i" !=  comment.updated_at|date:"Y-m-d H:i" %}
+                    <small><i>(edited)</i></small>
+                  {% endif %}
+                </p>
+                <footer class="blockquote-footer">commented by
+                  <cite><a href="">{{ comment.created_by.username }}</a></cite>
+                  on <cite>{{ comment.created_at }}</cite>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+          {% endfor%}
+        {% endfor %}
+      {% else %}
+        <p> No comments yet.</p>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}

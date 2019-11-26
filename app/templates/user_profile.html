@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} User Profile - {{ user.profile.first.username }} {% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ user.username }}' Profile</h1>
+    <ul class="list-group m-4">
+      <li class="list-group-item"><b>Fullname:</b> {{ user.first_name }} {{ user.last_name }}</li>
+      <li class="list-group-item"><b>Username:</b> {{ user.username }}</li>
+      <li class="list-group-item"><b>E-mail:</b> {{ user.email }}</li>
+      <li class="list-group-item"><b>Birthday:</b> {{ user.profile.first.birthday }}</li>
+      <li class="list-group-item"><b>Country:</b> {{ user.profile.first.country.name }}</li>
+    </ul>
+  </div>
+{% endblock %} 
