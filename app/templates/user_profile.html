@@ -6,7 +6,7 @@
   <div class="container">
     {% if user == userprofile.user %}
       <div class="m-2">
-        <a class="btn btn-primary" href="{% url 'user_profile_edit' userprofile.user.id %}">Edit profile</a>
+        <a class="btn btn-primary" href="{% url 'user_profile_edit' userprofile.id %}">Edit profile</a>
         <a class="btn btn-primary" href="{% url 'user_profile_relations' userprofile.user.id %}">See your relations</a>
       </div>
     {% endif %}

@@ -19,11 +19,15 @@ from app.views import (
   AcceptFriendRequestView,
   reject_friend_request,
   cancel_friend_request,
+  RegisterView,
+  LoginView,
 )
 
 urlpatterns = [
   path('', index, name='post_list'),
   path('', PostListView.as_view(), name='post_list'),
+  path('register/', RegisterView.as_view(), name='register'),
+  path('login/', LoginView.as_view(), name='login'),
   path('post/<int:pk>', post_detail, name='post_detail'),
   path('post/create', PostCreateView.as_view(), name='post_create'),
   path('post/<int:pk>/edit', post_edit, name='post_edit'),

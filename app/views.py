@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -189,7 +191,7 @@ def post_delete(request, pk):
     if request.method == "POST":
         post = Post.objects.get(pk=pk)
         post.delete()
-        return redirect(reverse_lazy("index"))
+        return redirect(reverse_lazy("post_list"))
     elif request.method == "GET":
         post = Post.objects.get(pk=pk)
         return render(request, "post_delete.html",
@@ -244,3 +246,35 @@ def cancel_friend_request(request, user_pk):
     user_profile.friend_requests.remove(requested_friend)
     user_profile.save()
     return redirect(reverse_lazy("user_profile", kwargs={"pk": user_pk}))
+
+
+class RegisterView(CreateView):
+    template_name= 'register.html'
+    form_class = UserCreationForm
+    model = User
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        user = User.objects.create_user(username=data['username'],
+                                        password=data['password1'])
+        UserProfile.objects.create(user=user)
+        return redirect('post_list')
+
+
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
+    def get_context_data(self):
+        form = AuthenticationForm()
+        return {'form': form}
+
+    def post(self, request, *args, **kwargs):
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(username=data['username'],
+                                password=data['password'])
+            login(request, user)
+            return redirect(reverse_lazy('post_list'))
+        else:
+            return render(request, "login.html", {"form": form})

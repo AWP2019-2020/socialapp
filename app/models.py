@@ -27,7 +27,7 @@ class Country(models.Model):
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
-    birthday = models.DateField(blank=True)
+    birthday = models.DateField(blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="profiles", blank=True, null=True)
     friend_requests = models.ManyToManyField(User, related_name='friend_requests', blank=True)
     friends = models.ManyToManyField(User, related_name='friends', blank=True)
