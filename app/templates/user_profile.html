@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %} User Profile - {{ user.profile.first.username }} {% endblock %}
+{% block title %} User Profile - {{ userprofile.user.username }} {% endblock %}
 
 {% block content %}
   <div class="container">
-    <h1>{{ user.username }}' Profile</h1>
+    <h1>{{ userprofile.user.username }}' Profile</h1>
     <ul class="list-group m-4">
-      <li class="list-group-item"><b>Fullname:</b> {{ user.first_name }} {{ user.last_name }}</li>
-      <li class="list-group-item"><b>Username:</b> {{ user.username }}</li>
-      <li class="list-group-item"><b>E-mail:</b> {{ user.email }}</li>
-      <li class="list-group-item"><b>Birthday:</b> {{ user.profile.first.birthday }}</li>
-      <li class="list-group-item"><b>Country:</b> {{ user.profile.first.country.name }}</li>
+      <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>
+      <li class="list-group-item"><b>Username:</b> {{ userprofile.user.username }}</li>
+      <li class="list-group-item"><b>E-mail:</b> {{ userprofile.user.email }}</li>
+      <li class="list-group-item"><b>Birthday:</b> {{ userprofile.birthday }}</li>
+      <li class="list-group-item"><b>Country:</b> {{ userprofile.country.name }}</li>
     </ul>
+
+    {% if user == userprofile.user %}
+      <a class="btn btn-secondary" href="{% url 'user_profile_relations' userprofile.user.id %}">See your relations</a>
+    {% endif %}
   </div>
-{% endblock %} 
+{% endblock %}

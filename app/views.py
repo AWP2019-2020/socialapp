@@ -5,11 +5,11 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
     TemplateView, ListView,
-    CreateView, UpdateView, DeleteView
+    CreateView, UpdateView, DeleteView, DetailView
 )
 
 from app.forms import CommentForm, PostForm
-from app.models import Post, Comment
+from app.models import Post, Comment, User, UserProfile
 
 # def index(request):
 #     return HttpResponse("Welcome to the SocialApp!")
@@ -49,8 +49,26 @@ def post_detail(request, pk):
     return render(request, "post_detail.html",
                     {"post": post, "form": form})
 
-class UserProfileView(TemplateView):
+
+class UserProfileView(DetailView):
     template_name = 'user_profile.html'
+    context_object_name = 'userprofile'
+
+    def get_object(self):
+        user = User.objects.get(id=self.kwargs['pk'])
+        userprofile = user.profile.first()
+        return userprofile
+
+
+class UserProfileRelationsView(DetailView):
+    template_name = 'user_profile_relations.html'
+    context_object_name = 'userprofile'
+
+    def get_object(self):
+        user = User.objects.get(id=self.kwargs['pk'])
+        userprofile = user.profile.first()
+        return userprofile
+
 
 def comment_create(request, pk):
     if request.method == "POST":

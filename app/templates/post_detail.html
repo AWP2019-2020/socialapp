@@ -16,7 +16,7 @@
             {% endif %}
           </h1>
           <p class="card-text">Created by:
-            <a href="">{{ post.created_by.username }}</a>
+            <a href="{% url 'user_profile' post.created_by.id %}">{{ post.created_by.username }}</a>
           </p>
         </div>
         <div class="card-footer text-muted">
@@ -58,7 +58,7 @@
                   {% endif %}
                 </p>
                 <footer class="blockquote-footer">commented by
-                  <cite><a href="">{{ comment.created_by.username }}</a></cite>
+                  <cite><a href="{% url 'user_profile' comment.created_by.id %}">{{ comment.created_by.username }}</a></cite>
                   on <cite>{{ comment.created_at }}</cite>
                 </footer>
               </blockquote>

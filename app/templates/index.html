@@ -10,7 +10,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">{{ post.text }}</h5>
-              <p class="card-text">Created by: <a href="">{{ post.created_by.username }}</a></p>
+              <p class="card-text">Created by: <a href="{% url 'user_profile' post.created_by.id %}">{{ post.created_by.username }}</a></p>
               <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">See post details</a>
           </div>
           <div class="card-footer text-muted">
