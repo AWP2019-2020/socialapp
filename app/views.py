@@ -8,7 +8,7 @@ from django.views.generic import (
     CreateView, UpdateView, DeleteView, DetailView
 )
 
-from app.forms import CommentForm, PostForm
+from app.forms import CommentForm, PostForm, UserProfileForm
 from app.models import Post, Comment, User, UserProfile
 
 # def index(request):
@@ -68,6 +68,32 @@ class UserProfileRelationsView(DetailView):
         user = User.objects.get(id=self.kwargs['pk'])
         userprofile = user.profile.first()
         return userprofile
+
+
+class UserProfileUpdateView(UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'user_profile_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileUpdateView, self).get_context_data(**kwargs)
+        user =  self.object.user
+        context['form'].fields['first_name'].initial = user.first_name
+        context['form'].fields['last_name'].initial = user.last_name
+        context['form'].fields['e_mail'].initial = user.email
+        return context
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        self.object.birthday = data['birthday']
+        self.object.country_id = data['country']
+        self.request.user.first_name = data['first_name']
+        self.request.user.last_name = data['last_name']
+        self.request.user.email = data['e_mail']
+        self.object.save()
+        self.request.user.save()
+        return redirect(reverse_lazy("user_profile",
+                                     kwargs={"pk": self.request.user.id}))
 
 
 def comment_create(request, pk):

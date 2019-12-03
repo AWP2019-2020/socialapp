@@ -10,6 +10,7 @@ from app.views import (
   PostDeleteView,
   UserProfileView,
   UserProfileRelationsView,
+  UserProfileUpdateView,
   comment_create,
   CommentCreateView,
   CommentEditView,
@@ -31,4 +32,5 @@ urlpatterns = [
   path('post/<int:pk>/comment/<int:pk_comment>/delete', CommentDeleteView.as_view(), name='comment_delete'),
   path('userprofile/<int:pk>', UserProfileView.as_view(), name='user_profile'),
   path('userprofile/<int:pk>/relations', UserProfileRelationsView.as_view(), name='user_profile_relations'),
+  path('userprofile/<int:pk>/edit', UserProfileUpdateView.as_view(), name='user_profile_edit'),
 ]

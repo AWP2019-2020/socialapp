@@ -4,6 +4,13 @@
 
 {% block content %}
   <div class="container">
+    {% if user == userprofile.user %}
+      <div class="m-2">
+        <a class="btn btn-primary" href="{% url 'user_profile_edit' userprofile.user.id %}">Edit profile</a>
+        <a class="btn btn-primary" href="{% url 'user_profile_relations' userprofile.user.id %}">See your relations</a>
+      </div>
+    {% endif %}
+
     <h1>{{ userprofile.user.username }}' Profile</h1>
     <ul class="list-group m-4">
       <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>
@@ -12,9 +19,5 @@
       <li class="list-group-item"><b>Birthday:</b> {{ userprofile.birthday }}</li>
       <li class="list-group-item"><b>Country:</b> {{ userprofile.country.name }}</li>
     </ul>
-
-    {% if user == userprofile.user %}
-      <a class="btn btn-secondary" href="{% url 'user_profile_relations' userprofile.user.id %}">See your relations</a>
-    {% endif %}
   </div>
 {% endblock %}
