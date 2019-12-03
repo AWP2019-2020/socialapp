@@ -11,6 +11,23 @@
       </div>
     {% endif %}
 
+    {% if user != userprofile.user %}
+      {% if user in userprofile.friend_requests.all %}
+        <a class="btn btn-secondary" href="{% url 'accept_friend_request' userprofile.user.id %}">Accept friend request</a>
+        <a class="btn btn-secondary" href="{% url 'reject_friend_request' userprofile.user.id %}">Reject friend request</a>
+      {% else %}
+        {% if user not in userprofile.friends.all %}
+          {% if userprofile.user not in user.profile.first.friend_requests.all %}
+            <a class="btn btn-secondary" href="">Send friend request</a>
+          {% else %}
+            <a class="btn btn-secondary" href="{% url 'cancel_friend_request' userprofile.user.id %}">Cancel friend request</a>
+          {% endif %}
+        {% else %}
+          <a class="btn btn-secondary" href="">Unfriend</a>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+
     <h1>{{ userprofile.user.username }}' Profile</h1>
     <ul class="list-group m-4">
       <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>

@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
@@ -201,3 +201,46 @@ class PostDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('post_list')
+
+
+def accept_friend_request(request, user_pk):
+    requesting_user = User.objects.get(pk=user_pk)
+    user_profile_requesting_user = requesting_user.profile.first()
+    user_profile_requested_user = request.user.profile.first()
+    user_profile_requested_user.friends.add(requesting_user)
+    user_profile_requesting_user.friends.add(request.user)
+    user_profile_requesting_user.friend_requests.remove(request.user)
+    user_profile_requested_user.save()
+    user_profile_requesting_user.save()
+    return redirect(reverse_lazy("user_profile", kwargs={"pk": user_pk}))
+
+class AcceptFriendRequestView(View):
+
+    def get(self, request, *args, **kwargs):
+        user_pk = self.kwargs['user_pk']
+        requesting_user = User.objects.get(pk=user_pk)
+        user_profile_requesting_user = requesting_user.profile.first()
+        user_profile_requested_user = request.user.profile.first()
+        user_profile_requested_user.friends.add(requesting_user)
+        user_profile_requesting_user.friends.add(request.user)
+        user_profile_requesting_user.friend_requests.remove(request.user)
+        user_profile_requested_user.save()
+        user_profile_requesting_user.save()
+        return redirect(reverse_lazy("user_profile", kwargs={"pk": user_pk}))
+
+
+def reject_friend_request(request, user_pk):
+    requesting_user = User.objects.get(pk=user_pk)
+    user_profile = requesting_user.profile.first()
+    user_profile.friend_requests.remove(request.user)
+    user_profile.save()
+    return redirect(reverse_lazy("user_profile", kwargs={"pk": user_pk}))
+
+
+
+def cancel_friend_request(request, user_pk):
+    requested_friend = User.objects.get(pk=user_pk)
+    user_profile = request.user.profile.first()
+    user_profile.friend_requests.remove(requested_friend)
+    user_profile.save()
+    return redirect(reverse_lazy("user_profile", kwargs={"pk": user_pk}))

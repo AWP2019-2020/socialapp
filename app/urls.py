@@ -15,6 +15,10 @@ from app.views import (
   CommentCreateView,
   CommentEditView,
   CommentDeleteView,
+  accept_friend_request,
+  AcceptFriendRequestView,
+  reject_friend_request,
+  cancel_friend_request,
 )
 
 urlpatterns = [
@@ -33,4 +37,9 @@ urlpatterns = [
   path('userprofile/<int:pk>', UserProfileView.as_view(), name='user_profile'),
   path('userprofile/<int:pk>/relations', UserProfileRelationsView.as_view(), name='user_profile_relations'),
   path('userprofile/<int:pk>/edit', UserProfileUpdateView.as_view(), name='user_profile_edit'),
+  # friends management
+  # path('accept_friend_request/<int:user_pk>', accept_friend_request, name='accept_friend_request'),
+  path('accept_friend_request/<int:user_pk>', AcceptFriendRequestView.as_view(), name='accept_friend_request'),
+  path('reject_friend_request/<int:user_pk>', reject_friend_request, name='reject_friend_request'),
+  path('cancel_friend_request/<int:user_pk>', cancel_friend_request, name='cancel_friend_request'),
 ]
