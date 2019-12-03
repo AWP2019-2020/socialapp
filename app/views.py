@@ -96,6 +96,42 @@ class CommentCreateView(CreateView):
         )
         return redirect(reverse_lazy("post_detail", kwargs={"pk": self.kwargs['pk']}))
 
+
+class CommentEditView(UpdateView):
+    model = Comment
+    fields = ['text']
+    pk_url_kwarg = 'pk_comment'
+    template_name = 'comment_update.html'
+
+    def form_valid(self, form):
+        comment = Comment.objects.get(pk=self.kwargs['pk_comment'])
+        comment.text = form.cleaned_data['text']
+        comment.save()
+        return redirect(reverse_lazy("post_detail", kwargs={"pk": self.kwargs['pk']}))
+
+
+class CommentDeleteView(DeleteView):
+    template_name = "comment_delete.html"
+    model = Comment
+    pk_url_kwarg = 'pk_comment'
+
+    def get_success_url(self):
+        return reverse_lazy("post_detail", kwargs={"pk": self.kwargs['pk']})
+
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['text']
+    template_name = 'post_create.html'
+
+    def form_valid(self, form):
+        post = Post.objects.create(
+            created_by=self.request.user,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("post_detail", kwargs={"pk": post.id }))
+
+
 def post_edit(request, pk):
     if request.method == "POST":
         form = PostForm(request.POST)

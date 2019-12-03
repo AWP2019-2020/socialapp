@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+  Edit comment
+{% endblock%}
+
+{% block content %}
+  <form method="post" class="form-inline justify-content-center">
+    {% csrf_token %}
+    <div class="form-group mx-2">
+      <textarea rows="4" cols="50" class="form-control" type="text-area" 
+      name="text" required="" id="id_text" maxlength="200">{{ form.text.initial }}</textarea>
+    </div>
+    <input class="btn btn-secondary" type="submit" value="Update comment"/>
+  </form>
+{% endblock %}
