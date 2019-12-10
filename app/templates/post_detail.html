@@ -35,24 +35,28 @@
     <div class=" col-sm-12">
       <h2>Comments</h2>
 
-      <form action="{% url 'comment_create' post.id %}" method="post" class="form-inline justify-content-center">
-        {% csrf_token %}
-        <!--{{ form.as_p }}-->
-        <div class="form-group mx-2">
-          <input class="form-control" type="text" name="text" required="" id="id_text" maxlength="200">
-        </div>
-        <input class="btn btn-secondary" type="submit" value="Comment" />
-      </form>
+      {% if user.is_authenticated %}
+        <form action="{% url 'comment_create' post.id %}" method="post" class="form-inline justify-content-center">
+          {% csrf_token %}
+          <!--{{ form.as_p }}-->
+          <div class="form-group mx-2">
+            <input class="form-control" type="text" name="text" required="" id="id_text" maxlength="200">
+          </div>
+          <input class="btn btn-secondary" type="submit" value="Comment" />
+        </form>
+      {% endif %}
 
       {% if post.comments.all %}
         {% regroup post.comments.all|dictsortreversed:"created_at" by created_at as comments %}
         {% for comment_group in comments %}
           {% for comment in comment_group.list %}
           <div class="card m-3">
-            <div class="m-2">
-              <a class="btn btn-secondary" href="{% url 'comment_edit' post.id comment.id %}">Edit comment</a>
-              <a class="btn btn-secondary" href="{% url 'comment_delete' post.id comment.id %}">Delete comment</a>
-            </div>
+            {% if user == comment.created_by %}
+              <div class="m-2">
+                <a class="btn btn-secondary" href="{% url 'comment_edit' post.id comment.id %}">Edit comment</a>
+                <a class="btn btn-secondary" href="{% url 'comment_delete' post.id comment.id %}">Delete comment</a>
+              </div>
+            {% endif %}
             <div class="card-body">
               <blockquote class="blockquote mb-0">
                 <p>

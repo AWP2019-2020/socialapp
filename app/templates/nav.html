@@ -7,8 +7,13 @@
     <li class="nav-item">
       <a class="nav-link active" href="{% url 'user_profile' user.id %}">Hello, {{ user.username }}</a>
     </li>
+    {% if user.is_superuser %}
     <li class="nav-item">
-      <a class="nav-link active" href="">Logout</a>
+      <a class="nav-link active" href="{% url 'admin:index' %}">Admin</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
     </li>
   {% else %}
     <li class="nav-item">
@@ -17,5 +22,6 @@
     <li class="nav-item">
       <a class="nav-link active" href="{% url 'register' %}">Register</a>
     </li>
+
   {% endif %}
   </ul>

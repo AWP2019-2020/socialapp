@@ -19,8 +19,11 @@ from app.views import (
   AcceptFriendRequestView,
   reject_friend_request,
   cancel_friend_request,
+  SendFriendRequestView,
+  UnfriendView,
   RegisterView,
   LoginView,
+  LogoutView,
 )
 
 urlpatterns = [
@@ -28,6 +31,7 @@ urlpatterns = [
   path('', PostListView.as_view(), name='post_list'),
   path('register/', RegisterView.as_view(), name='register'),
   path('login/', LoginView.as_view(), name='login'),
+  path('logout/', LogoutView.as_view(), name='logout'),
   path('post/<int:pk>', post_detail, name='post_detail'),
   path('post/create', PostCreateView.as_view(), name='post_create'),
   path('post/<int:pk>/edit', post_edit, name='post_edit'),
@@ -46,4 +50,6 @@ urlpatterns = [
   path('accept_friend_request/<int:user_pk>', AcceptFriendRequestView.as_view(), name='accept_friend_request'),
   path('reject_friend_request/<int:user_pk>', reject_friend_request, name='reject_friend_request'),
   path('cancel_friend_request/<int:user_pk>', cancel_friend_request, name='cancel_friend_request'),
+  path('unfriend/<int:friend_pk>', UnfriendView.as_view(), name='unfriend'),
+  path('send_friend_request/<int:user_pk>', SendFriendRequestView.as_view(), name='send_friend_request'),
 ]

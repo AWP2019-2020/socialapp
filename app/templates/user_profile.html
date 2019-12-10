@@ -18,17 +18,18 @@
       {% else %}
         {% if user not in userprofile.friends.all %}
           {% if userprofile.user not in user.profile.first.friend_requests.all %}
-            <a class="btn btn-secondary" href="">Send friend request</a>
+            <a class="btn btn-secondary" href="{% url 'send_friend_request' userprofile.user.id %}">Send friend request</a>
           {% else %}
             <a class="btn btn-secondary" href="{% url 'cancel_friend_request' userprofile.user.id %}">Cancel friend request</a>
           {% endif %}
         {% else %}
-          <a class="btn btn-secondary" href="">Unfriend</a>
+          <a class="btn btn-secondary" href="{% url 'unfriend' userprofile.user.id %}">Unfriend</a>
         {% endif %}
       {% endif %}
     {% endif %}
 
     <h1>{{ userprofile.user.username }}' Profile</h1>
+    {% if user in userprofile.friends.all or user == userprofile.user %}
     <ul class="list-group m-4">
       <li class="list-group-item"><b>Fullname:</b> {{ userprofile.user.first_name }} {{ userprofile.user.last_name }}</li>
       <li class="list-group-item"><b>Username:</b> {{ userprofile.user.username }}</li>
@@ -36,5 +37,6 @@
       <li class="list-group-item"><b>Birthday:</b> {{ userprofile.birthday }}</li>
       <li class="list-group-item"><b>Country:</b> {{ userprofile.country.name }}</li>
     </ul>
+    {% endif %}
   </div>
 {% endblock %}
