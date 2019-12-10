@@ -1,0 +1,30 @@
+[
+    {
+        "model": "app.country",
+        "pk": "RO",
+        "fields": {
+            "name": "Romania"
+        }
+    },
+    {
+        "model": "app.country",
+        "pk": "BG",
+        "fields": {
+            "name": "Bulgaria"
+        }
+    },
+    {
+        "model": "app.country",
+        "pk": "GR",
+        "fields": {
+            "name": "Greece"
+        }
+    },
+    {
+        "model": "app.country",
+        "pk": "GB",
+        "fields": {
+            "name": "Great Britain"
+        }
+    }
+]

@@ -4,13 +4,13 @@
 {% endblock%}
 
 {% block content %}
-  <form method="post" class="justify-content-center col-6">
+  <form method="post" class="justify-content-center col-6" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form.errors }}
     <div class="form-group mx-2">
       <label for="id_birthday">Birthday:</label>
-      <input type="text" name="birthday"
-             value="{{ form.birthday.initial | date:'Y-m-d' }}" id="id_birthday">
+      <input type="text" name="birthday" value="{{ form.birthday.initial | date:'Y-m-d' }}"
+             id="id_birthday">
     </div>
 
     <div class="form-group mx-2">
@@ -45,6 +45,24 @@
              value="{{ form.e_mail.initial }}">
     </div>
 
-    <input class="btn btn-secondary" type="submit" value="Update profile" />
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon01">Avatar upload</span>
+      </div>
+      <div class="custom-file">
+        <input type="file" name="avatar" id="id_avatar" class="custom-file-input">
+        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+      </div>
+    </div>
+    <input style="margin-top:20px;" class="btn btn-secondary" type="submit" value="Update profile" />
   </form>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+</script>
 {% endblock %}
