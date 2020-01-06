@@ -4,8 +4,10 @@ from django.db import models
 
 User = get_user_model()
 
+
 class Post(models.Model):
     text = models.CharField(max_length=200)
+    image = models.FileField(upload_to='uploads/', blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

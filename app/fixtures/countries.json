@@ -26,5 +26,19 @@
         "fields": {
             "name": "Great Britain"
         }
+    },
+    {
+        "model": "app.country",
+        "pk": "DE",
+        "fields": {
+            "name": "Germany"
+        }
+    },
+    {
+        "model": "app.country",
+        "pk": "ES",
+        "fields": {
+            "name": "Spain"
+        }
     }
 ]

@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -50,8 +49,7 @@ class PostListView(ListView):
 def post_detail(request, pk):
     post = Post.objects.get(id=pk)
     form = CommentForm()
-    return render(request, "post_detail.html",
-                    {"post": post, "form": form})
+    return render(request, "post_detail.html", {"post": post, "form": form})
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
@@ -81,7 +79,7 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileUpdateView, self).get_context_data(**kwargs)
-        user =  self.object.user
+        user = self.object.user
         context['form'].fields['first_name'].initial = user.first_name
         context['form'].fields['last_name'].initial = user.last_name
         context['form'].fields['e_mail'].initial = user.email
@@ -119,7 +117,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     fields = ['text']
 
     def form_valid(self, form):
-        import pdb;pdb.set_trace();
         post = Post.objects.get(id=self.kwargs['pk'])
         Comment.objects.create(
             created_by=self.request.user,
@@ -153,7 +150,7 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['text']
+    fields = ['text', 'image']
     template_name = 'post_create.html'
 
     def form_valid(self, form):
@@ -161,7 +158,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             created_by=self.request.user,
             **form.cleaned_data
         )
-        return redirect(reverse_lazy("post_detail", kwargs={"pk": post.id }))
+        return redirect(reverse_lazy("post_detail", kwargs={"pk": post.id}))
 
 
 @login_required
@@ -175,10 +172,10 @@ def post_edit(request, pk):
             return redirect(reverse_lazy("post_detail", kwargs={"pk": pk}))
     elif request.method == "GET":
         post = Post.objects.get(pk=pk)
-        data= {"text": post.text}
+        data = {"text": post.text}
         form = PostForm(initial=data)
-        return render(request, "post_update.html",
-                      {"post": post, "form":form})
+        return render(request, "post_update.html", {"post": post, "form": form})
+
 
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post
@@ -280,11 +277,11 @@ class SendFriendRequestView(LoginRequiredMixin, View):
         request_user_profile.friend_requests.add(requested_user)
         request_user_profile.save()
         return redirect(reverse_lazy("user_profile",
-                                    kwargs={"pk": requested_user_pk}))
+                                     kwargs={"pk": requested_user_pk}))
 
 
 class RegisterView(CreateView):
-    template_name= 'register.html'
+    template_name = 'register.html'
     form_class = UserCreationForm
     model = User
 
